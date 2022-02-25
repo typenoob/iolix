@@ -22,7 +22,7 @@ const set = function (key, value) {
         const json = data.toString() ? JSON.parse(data) : {};
         json[key] = value;
         // 写入文件
-        fs.writeFile('./db.json', JSON.stringify(json), err => {
+        fs.writeFile('./db.json', JSON.stringify(json, "", "\t"), err => {
             if (err) {
                 console.log(err)
             }
