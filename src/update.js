@@ -35,12 +35,12 @@ var count = 0;
 const data = fs.readFileSync('./db.json', 'utf-8');
 var database = { last: undefined, movies: [] };
 if (isJsonString(data)) database = JSON.parse(data)['database'];
-const increasement = 30;
+const increasement = 100;
 for (var i = database.last ? database.last : 1; i <= (database.last ? database.last : 1) + increasement; i++) {
     movieinfo_1.getMovieData(i, -1).then(res => {
         if (res && res.code == 0) {
             count += 1;
-            database.movies.push(new movie(res.object.id, res.object.title, res.object.imageurl, "http://fx.meiying.cool/#/home/" + this.id + "/-1"));
+            database.movies.push(new movie(res.object.id, res.object.title, res.object.imageurl, "http://fx.meiying.cool/#/home/" + res.object.id + "/-1"));
             database.last = i;
             if (count == increasement) {
                 set('database', database);
