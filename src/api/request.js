@@ -6,7 +6,7 @@ function request(config) {
     // 1.创建axios的实例
     var instance = axios_1["default"].create({
         baseURL: "http://fx.meiying.cool/api/",
-        timeout: 8000
+        timeout: 600000
     });
     // 2.axios的拦截器
     // 2.1.请求拦截的作用

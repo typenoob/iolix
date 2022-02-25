@@ -31,27 +31,42 @@ const set = function (key, value) {
     })
 }
 const movieinfo_1 = require('./api/movieinfo');
-var count = 0;
 const data = fs.readFileSync('./db.json', 'utf-8');
 var database = { last: undefined, movies: [] };
 if (isJsonString(data)) database = JSON.parse(data)['database'];
-const increasement = 100;
-for (var i = database.last ? database.last : 1; i <= (database.last ? database.last : 1) + increasement; i++) {
-    movieinfo_1.getMovieData(i, -1).then(res => {
-        if (res && res.code == 0) {
-            count += 1;
-            database.movies.push(new movie(res.object.id, res.object.title, res.object.imageurl, "http://fx.meiying.cool/#/home/" + res.object.id + "/-1"));
-            database.last = i;
-            if (count == increasement) {
-                set('database', database);
-            }
+function getTasks(start, end) {
+    var tasks = [];
+    for (var i = start; i <= end; i++) {
+        if (!database.movies.map(item => { return item.id; }).includes(i)) {
+            tasks.push(movieinfo_1.getMovieData(i, -1).then(res => {
+                if (res && res.code == 0) {
+                    database.movies.push(new movie(res.object.id, res.object.title, res.object.imageurl, "http://fx.meiying.cool/#/home/" + res.object.id + "/-1"));
+                    database.last = Math.max(database.last, res.object.id);
+                }
+            }));
         }
         else {
-            count += 1;
-            if (count == increasement) {
-                set('database', database);
-            }
+            database.last = Math.max(database.last, i);
         }
-    })
+    }
+    return tasks;
 }
-
+const init = 1, split = 100, finish = database.last + 2 * split;
+function doJob(start, end) {
+    console.log('正在更新第', start, '至', end, '条记录，请稍后...');
+    var ret = getTasks(start, end);
+    ret.push(start);
+    ret.push(end);
+    return Promise.all(ret);
+}
+var all = [];
+function recursion(start, end) {
+    if (end <= finish) {
+        all.push(
+            doJob(start, end).then(
+                (items) => { recursion(items[items.length - 2] + 100, items[items.length - 1] + 100) }
+            ));
+    }
+    else Promise.all(all).then(() => { set('database', database) });
+}
+recursion(init, init + split - 1);
