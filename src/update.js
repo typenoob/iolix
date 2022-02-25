@@ -51,7 +51,7 @@ function getTasks(start, end) {
     }
     return tasks;
 }
-const init = 1, split = 100, finish = database.last + 2 * split;
+const init = 1, split = 100, finish = database.last ? database.last + 2 * split : 100;
 function doJob(start, end) {
     console.log('正在更新第', start, '至', end, '条记录，请稍后...');
     var ret = getTasks(start, end);
