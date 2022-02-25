@@ -5,10 +5,17 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint",
+    "update": "node ./src/update"
   },
   "dependencies": {
+    "@ant-design/icons-vue": "^6.0.1",
+    "ant-design-vue": "^2.2.8",
+    "axios": "^0.26.0",
     "core-js": "^3.8.3",
+    "crypto-js": "^4.1.1",
+    "fs": "^0.0.1-security",
+    "vant": "^3.4.5",
     "vue": "^3.2.13"
   },
   "devDependencies": {
@@ -39,5 +46,10 @@
     "last 2 versions",
     "not dead",
     "not ie 11"
-  ]
+  ],
+  "browser": {
+    "fs": false,
+    "path": false,
+    "os": false
+  }
 }

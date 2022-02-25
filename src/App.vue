@@ -1,17 +1,27 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <MovieCard
+    id="666"
+    title="title"
+    imgurl="https://images.weserv.nl/?url=https://img1.doubanio.com/view/photo/s_ratio_poster/public/p2848324437.webp"
+  />
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
-
+import MovieCard from "./components/MovieCard";
 export default {
-  name: 'App',
-  components: {
-    HelloWorld
-  }
-}
+  name: "App",
+  components: { MovieCard },
+  data() {
+    return {
+      show: function () {
+        var movieinfo = require("./api/movieinfo");
+        movieinfo.getMovieData(300, -1).then((res) => {
+          localStorage["res"] = res;
+        });
+      },
+    };
+  },
+};
 </script>
 
 <style>
