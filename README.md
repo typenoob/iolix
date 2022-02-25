@@ -40,7 +40,7 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 
 ## github自动流程
 
-已通过github每三十分钟自动执行更新命令，数据存储在 [电影数据库](https://raw.githubusercontent.com/typenoob/iolix/master/db.json)
+已通过github每一个小时自动执行更新命令，数据存储在 [电影数据库](https://raw.githubusercontent.com/typenoob/iolix/master/db.json)
 
 ## TODO
 
