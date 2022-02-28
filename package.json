@@ -16,7 +16,8 @@
     "crypto-js": "^4.1.1",
     "fs": "^0.0.1-security",
     "vant": "^3.4.5",
-    "vue": "^3.2.13"
+    "vue": "^3.2.13",
+    "vue-router": "^4.0.12"
   },
   "devDependencies": {
     "@babel/core": "^7.12.16",

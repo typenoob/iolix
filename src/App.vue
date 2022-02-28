@@ -1,26 +1,13 @@
 <template>
-  <MovieCard
-    id="666"
-    title="title"
-    imgurl="https://images.weserv.nl/?url=https://img1.doubanio.com/view/photo/s_ratio_poster/public/p2848324437.webp"
-  />
+  <MainPage />
 </template>
 
 <script>
-import MovieCard from "./components/MovieCard";
+import MainPage from "@/components/MainPage";
 export default {
   name: "App",
-  components: { MovieCard },
-  data() {
-    return {
-      show: function () {
-        var movieinfo = require("./api/movieinfo");
-        movieinfo.getMovieData(300, -1).then((res) => {
-          localStorage["res"] = res;
-        });
-      },
-    };
-  },
+  components: { MainPage },
+  data() {},
 };
 </script>
 

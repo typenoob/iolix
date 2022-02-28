@@ -1,9 +1,8 @@
-import { createApp } from 'vue';
-import { Button, Image, Card, Menu } from 'ant-design-vue';
 import App from './App';
+import router from './router'
+import { createApp } from 'vue';
+import { Button, Pagination } from 'ant-design-vue';
 import 'ant-design-vue/dist/antd.css';
 
 const app = createApp(App);
-
-/* 会自动注册 Button 下的子组件, 例如 Button.Group */
-app.use(Button).use(Image).use(Card).use(Menu).mount('#app');
+app.use(router).use(Button).use(Pagination).mount("#app");
