@@ -42,6 +42,10 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 
 已通过github每一个小时自动执行更新命令，数据存储在 [电影数据库](https://raw.githubusercontent.com/typenoob/iolix/master/db.json)
 
+## github page
+
+已通过github部署了[静态网页](http://blog.coyote.gq/iolix)
+
 ## TODO
 
-利用vuejs搭建静态页面，以提供良好的ui界面。
+改进网页
