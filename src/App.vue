@@ -7,7 +7,9 @@ import MainPage from "@/components/MainPage";
 export default {
   name: "App",
   components: { MainPage },
-  data() {},
+  data() {
+    return {};
+  },
 };
 </script>
 

@@ -1,7 +1,8 @@
 <template>
-  <a :href="url">
+  <a :href="'http://fx.meiying.cool/#/home/' + id + '/-1'">
     <a-card :title="title" style="width: 300px">
       <p>
+        {{ title }}
         <a-image :src="imgurl" />
       </p>
     </a-card>
@@ -15,15 +16,6 @@ export default {
     id: Number,
     title: String,
     imgurl: String,
-  },
-  computed: {
-    url: {
-      // getter
-      get() {
-        return "http://fx.meiying.cool/#/home/" + this.id + "/-1";
-      },
-      // setter
-    },
   },
 };
 </script>
