@@ -28,7 +28,7 @@ jobs:
     - run: npm run update
     - name: Commit and push if changed   # 更新README.md
       run: |
-          git diff
+          git diff || true
           git config --global user.email "chenyutao0706@gmail.com"
           git config --global user.name "coyote"
           git add db.json
