@@ -21540,8 +21540,20 @@
 				"title": "史前星球 Prehistoric Planet",
 				"imageurl": "https://img1.doubanio.com/view/photo/s_ratio_poster/public/p2870826358.webp",
 				"url": "http://fx.meiying.cool/#/home/3809/-1"
+			},
+			{
+				"id": 3811,
+				"title": "挪威的维京人 第二季 Vikingane Sesong 2",
+				"imageurl": "https://img9.doubanio.com/view/photo/s_ratio_poster/public/p2542092294.webp",
+				"url": "http://fx.meiying.cool/#/home/3811/-1"
+			},
+			{
+				"id": 3810,
+				"title": "挪威的维京人 第一季 Vikingane Sesong 1",
+				"imageurl": "https://img2.doubanio.com/view/photo/s_ratio_poster/public/p2542228741.webp",
+				"url": "http://fx.meiying.cool/#/home/3810/-1"
 			}
 		],
-		"last": 3809
+		"last": 3811
 	}
 }
