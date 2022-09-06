@@ -44,7 +44,7 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 
 ## github page
 
-已通过github部署了[静态网页](http://blog.coyote.gq/iolix)
+已通过github部署了[静态网页](https://typenoob.github.io/iolix/)
 
 ## TODO
 
