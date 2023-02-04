@@ -34746,8 +34746,14 @@
 				"title": "飞机陷落 Plane",
 				"imageurl": "https://img9.doubanio.com/view/photo/s_ratio_poster/public/p2882466756.jpg",
 				"url": "http://fx.meiying.cool/#/home/6002/-1"
+			},
+			{
+				"id": 6003,
+				"title": "超技舞台 テクノロイド",
+				"imageurl": "https://img1.doubanio.com/view/photo/s_ratio_poster/public/p2869551880.jpg",
+				"url": "http://fx.meiying.cool/#/home/6003/-1"
 			}
 		],
-		"last": 6002
+		"last": 6003
 	}
 }
