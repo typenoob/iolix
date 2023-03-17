@@ -36204,8 +36204,20 @@
 				"title": "07届同学 第一季 Class of '07 Season 1",
 				"imageurl": "https://img9.doubanio.com/view/photo/s_ratio_poster/public/p2888429725.jpg",
 				"url": "http://fx.meiying.cool/#/home/6246/-1"
+			},
+			{
+				"id": 6248,
+				"title": "暗影王者 Le Roi des Ombres",
+				"imageurl": "https://img9.doubanio.com/view/photo/s_ratio_poster/public/p2889243704.jpg",
+				"url": "http://fx.meiying.cool/#/home/6248/-1"
+			},
+			{
+				"id": 6247,
+				"title": "特工猫王 Agent Elvis",
+				"imageurl": "https://img2.doubanio.com/view/photo/s_ratio_poster/public/p2887590272.jpg",
+				"url": "http://fx.meiying.cool/#/home/6247/-1"
 			}
 		],
-		"last": 6246
+		"last": 6248
 	}
 }
