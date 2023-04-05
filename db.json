@@ -36582,8 +36582,20 @@
 				"title": "特工家族 패밀리",
 				"imageurl": "https://img1.doubanio.com/view/photo/s_ratio_poster/public/p2889269678.jpg",
 				"url": "http://fx.meiying.cool/#/home/6303/-1"
+			},
+			{
+				"id": 6311,
+				"title": "MIX：明青故事 第二季 MIX MEISEI STORY 2ND SEASON ～二度目の夏、空の向こうへ～",
+				"imageurl": "https://img9.doubanio.com/view/photo/s_ratio_poster/public/p2889041116.jpg",
+				"url": "http://fx.meiying.cool/#/home/6311/-1"
+			},
+			{
+				"id": 6310,
+				"title": "MIX：明青故事 MIX MEISEI STORY",
+				"imageurl": "https://img1.doubanio.com/view/photo/s_ratio_poster/public/p2550666677.jpg",
+				"url": "http://fx.meiying.cool/#/home/6310/-1"
 			}
 		],
-		"last": 6309
+		"last": 6311
 	}
 }
