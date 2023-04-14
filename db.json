@@ -36948,8 +36948,20 @@
 				"title": "机械之声的传奇 第二季 The Legend of Vox Machina Season 2",
 				"imageurl": "https://img1.doubanio.com/view/photo/s_ratio_poster/public/p2886311499.jpg",
 				"url": "http://fx.meiying.cool/#/home/6370/-1"
+			},
+			{
+				"id": 6372,
+				"title": "灵异神探 Fenómenas",
+				"imageurl": "https://img2.doubanio.com/view/photo/s_ratio_poster/public/p2890651841.jpg",
+				"url": "http://fx.meiying.cool/#/home/6372/-1"
+			},
+			{
+				"id": 6371,
+				"title": "心蚀 Weathering",
+				"imageurl": "https://img1.doubanio.com/view/photo/s_ratio_poster/public/p2890641527.jpg",
+				"url": "http://fx.meiying.cool/#/home/6371/-1"
 			}
 		],
-		"last": 6370
+		"last": 6372
 	}
 }
