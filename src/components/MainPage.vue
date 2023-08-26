@@ -1,20 +1,26 @@
 <template>
-  <VanSearch ref="searchbar" v-model="searchValue" @focus="isSearching = true" @blur="isSearching = false" />
-  <SearchResult v-if="isSearching" :movies="searchMovies" />
-  <template v-else>
-    <h1>这是第{{ database.last }}页</h1>
-    <div v-if="database.movies">
-      <div v-if="database.movies[current]">
-        <MovieCard :id="database.movies[current].id" :title="database.movies[current].title"
-          :imgurl="database.movies[current].imageurl" />
+  <VanSearch :class="{ focus: isSearching }" ref="searchbar" v-model="searchValue" @focus="isSearching = true"
+    @blur="isSearching = false" />
+  <Transition name="fade" mode="out-in">
+    <div v-if="isSearching">
+      <SearchResult :movies="searchMovies" />
+    </div>
+    <div class="container" v-else>
+      <h1>这是第{{ current }}页</h1>
+      <div v-if="database.movies">
+        <div v-if="database.movies[current]" class="flex-container">
+          <MovieCard class="flex-item" :key="movies.id"
+            v-for="movies in database.movies.slice((current - 1) * 8, current * 8)" :id="movies.id" :title="movies.title"
+            :imgurl="movies.imageurl" />
+        </div>
+      </div>
+      <div v-if="database.movies">
+        <a-pagination v-model:current="current" show-quick-jumper :pageSize="8" :total="database.movies.length"
+          @change="onChange" />
+        <br />
       </div>
     </div>
-    <div v-if="database.movies">
-      <a-pagination v-model:current="current" show-quick-jumper :total="(database.movies.length - 1) * 10"
-        @change="onChange" />
-      <br />
-    </div>
-  </template>
+  </Transition>
 </template>
 <script>
 import axios from "axios";
@@ -43,8 +49,8 @@ export default defineComponent({
   },
   computed: {
     searchMovies() {
-      // limit up to 5 results
-      return this.database.movies?.filter(movie => movie.title.includes(this.searchValue)).slice(0, 5);
+      // limit up to 8 results
+      return this.database.movies?.filter(movie => movie.title.includes(this.searchValue)).slice(0, 8);
     }
   },
   mounted() {
@@ -71,3 +77,37 @@ export default defineComponent({
   },
 });
 </script>
+<style scoped>
+.flex-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: left;
+}
+
+.flex-item {
+  margin: 10px;
+}
+
+.focus {
+  border: 0.5px solid #292a2b;
+  border-radius: 8px;
+}
+
+.container {
+  background-color: lightsteelblue;
+}
+
+.van-cell {
+  border: none !important;
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity .5s
+}
+
+.fade-enter,
+.fade-leave-to {
+  opacity: 0
+}
+</style>

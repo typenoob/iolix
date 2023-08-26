@@ -1,16 +1,10 @@
 <template>
-    <div class="container">
-        <div class="row">
-            <div class="col-md-12">
-                <h1>搜索结果</h1>
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="row">
-                            <MovieCard v-for="movie in movies" :key="movie.id" :id="movie.id" :title="movie.title"
-                                :imgurl="movie.imgurl" />
-                        </div>
-                    </div>
-                </div>
+    <div>
+        <div class="container">
+            <h1>搜索结果</h1>
+            <div class="flex-container">
+                <MovieCard class="flex-item" v-for="movie in movies" :key="movie.id" :id="movie.id" :title="movie.title"
+                    :imgurl="movie.imageurl" />
             </div>
         </div>
     </div>
@@ -27,3 +21,18 @@ export default {
     },
 }
 </script>
+<style scoped>
+.container {
+    background-color: antiquewhite;
+}
+
+.flex-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: left;
+}
+
+.flex-item {
+    margin: 10px;
+}
+</style>
