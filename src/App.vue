@@ -1,12 +1,12 @@
 <template>
-  <MainPage />
+  <RouterView></RouterView>
 </template>
 
 <script>
-import MainPage from "@/components/MainPage";
+import { RouterView } from "vue-router";
 export default {
   name: "App",
-  components: { MainPage },
+  components: { RouterView },
   data() {
     return {};
   },

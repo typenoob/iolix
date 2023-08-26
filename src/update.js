@@ -25,12 +25,13 @@ const set = function (key, value) {
         fs.writeFile('./db.json', JSON.stringify(json, "", "\t"), err => {
             if (err) {
                 console.log(err)
-            }
-            console.log('update Success!');
+            } else
+                console.log('update Success!');
         })
     })
 }
 const movieinfo_1 = require('./api/movieinfo');
+if (!fs.existsSync('./db.json')) fs.writeFileSync('./db.json', JSON.stringify({ database: { last: undefined, movies: [] } }));
 const data = fs.readFileSync('./db.json', 'utf-8');
 var database = { last: undefined, movies: [] };
 if (isJsonString(data)) database = JSON.parse(data)['database'];
@@ -51,7 +52,7 @@ function getTasks(start, end) {
     }
     return tasks;
 }
-const init = 1, split = 100, finish = database.last ? database.last + 2 * split : 100;
+const init = 1, step = 100, finish = 6900;//database.last ? database.last + 2 * step : 6900;
 function doJob(start, end) {
     console.log('正在更新第', start, '至', end, '条记录，请稍后...');
     var ret = getTasks(start, end);
@@ -69,4 +70,4 @@ function recursion(start, end) {
     }
     else Promise.all(all).then(() => { set('database', database) });
 }
-recursion(init, init + split - 1);
+recursion(init, init + step - 1);
