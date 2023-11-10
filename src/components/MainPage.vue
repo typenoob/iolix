@@ -55,7 +55,7 @@ export default defineComponent({
   },
   mounted() {
     axios
-      .get("https://raw.githubusercontent.com/typenoob/iolix/master/db.json")
+      .get("https://raw.gitmirror.com/typenoob/iolix/master/db.json")
       .then((response) => {
         this.database = response.data.database;
       })
