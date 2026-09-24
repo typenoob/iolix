@@ -52,7 +52,7 @@ function getTasks(start, end) {
     }
     return tasks;
 }
-const init = 1, step = 100, finish = 6900;//database.last ? database.last + 2 * step : 6900;
+const init = 1, step = 100, finish = 15000;//database.last ? database.last + 2 * step : 6900;
 function doJob(start, end) {
     console.log('正在更新第', start, '至', end, '条记录，请稍后...');
     var ret = getTasks(start, end);
