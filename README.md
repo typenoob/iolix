@@ -4,7 +4,7 @@
 
 爬取某网站的电影信息，提供标题、海报与播放链接。前端是 Vue 3 单页应用，部署为 Cloudflare Workers + Static Assets（新版 Pages），数据存放在 Workers KV，接口在边缘做分页与搜索。
 
-线上地址：https://iolix.namu.cn.eu.org/（Cloudflare 部署）
+线上地址：https://iolix.namu.cn.eu.org/ （Cloudflare 部署）
 
 ## 架构
 
