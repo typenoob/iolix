@@ -1,0 +1,20 @@
+#:schema ../node_modules/wrangler/config-schema.json
+
+# 独立 Cron Worker：Pages Functions 不支持 scheduled handler，因此爬取逻辑单独部署。
+# 与 Pages 项目共用同一个 KV namespace（binding 名同为 MOVIE_DB）。
+name = "iolix-crawler"
+main = "src/index.js"
+compatibility_date = "2026-09-01"
+
+[triggers]
+crons = ["*/10 * * * *"]
+
+[[kv_namespaces]]
+binding = "MOVIE_DB"
+id = "d85295d9f56c40c5af00c426d7aad334"
+
+[vars]
+BATCH_SIZE = "60"
+MAX_ID = "15000"
+API_BASE = "http://fx.meiying.cool/api/"
+PLAY_BASE = "http://fx.meiying.cool/"

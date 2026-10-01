@@ -6,15 +6,19 @@
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
-    "update": "node ./src/update"
+    "pages:dev": "wrangler pages dev dist",
+    "pages:deploy": "wrangler pages deploy dist",
+    "kv:create": "wrangler kv namespace create iolix-db",
+    "kv:import": "wrangler kv key put db --path=db.json --binding=MOVIE_DB",
+    "crawler:dev": "cd crawler && wrangler dev --test-scheduled",
+    "crawler:deploy": "cd crawler && wrangler deploy",
+    "crawler:tail": "cd crawler && wrangler tail"
   },
   "dependencies": {
     "@ant-design/icons-vue": "^6.0.1",
     "ant-design-vue": "^2.2.8",
     "axios": "^0.26.0",
     "core-js": "^3.8.3",
-    "crypto-js": "^4.1.1",
-    "fs": "^0.0.1-security",
     "vant": "^3.4.5",
     "vue": "^3.2.13",
     "vue-router": "^4.0.12"
@@ -26,7 +30,8 @@
     "@vue/cli-plugin-eslint": "~5.0.0",
     "@vue/cli-service": "~5.0.0",
     "eslint": "^7.32.0",
-    "eslint-plugin-vue": "^8.0.3"
+    "eslint-plugin-vue": "^8.0.3",
+    "wrangler": "^4.145.0"
   },
   "eslintConfig": {
     "root": true,

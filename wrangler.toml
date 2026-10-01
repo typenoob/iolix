@@ -1,0 +1,13 @@
+#:schema node_modules/wrangler/config-schema.json
+
+# Cloudflare Pages 项目配置
+# 本地联调：`npm run pages:dev`（wrangler pages dev 会自动读取本文件的 KV 绑定）
+# 生产部署：Dashboard → Workers & Pages → iolix → Settings → Functions → KV namespace bindings
+#           绑定变量名 MOVIE_DB，并把下面 id 替换为 `npm run kv:create` 输出的 namespace id
+name = "iolix"
+compatibility_date = "2026-09-01"
+pages_build_output_dir = "dist"
+
+[[kv_namespaces]]
+binding = "MOVIE_DB"
+id = "d85295d9f56c40c5af00c426d7aad334"
