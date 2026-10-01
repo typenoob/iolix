@@ -4,6 +4,8 @@
 
 爬取某网站的电影信息，提供标题、海报与播放链接。前端是 Vue 3 单页应用，部署为 Cloudflare Workers + Static Assets（新版 Pages），数据存放在 Workers KV，接口在边缘做分页与搜索。
 
+线上地址：https://iolix.namu.cn.eu.org/（Cloudflare 部署）
+
 ## 架构
 
 | 组成 | 位置 | 说明 |
@@ -13,7 +15,7 @@
 | 数据存放 | Workers KV（绑定名 `MOVIE_DB`） | 整库单 key `db`，另有 `sync:cursor`、`sync:lock` 两个辅助 key |
 | 定时爬取 | `crawler/` | 独立 Worker + Cron Triggers，每天 UTC 18:00 增量爬取 |
 
-读取链路：浏览器 → Worker 静态资源 → `/api/*` → KV 读 `db`（模块级快照缓存 5 分钟）→ 边缘切片 → 返回数 KB JSON。
+读取链路：浏览器 → Worker 静态资源 → `/api/*` → KV 读 `db`（模块级快照 + 边缘缓存，TTL 60 秒）→ 边缘切片 → 返回数 KB JSON。
 写入链路：Cron → 加锁 → 读库建索引 → 抓一批缺失 ID → 写回 `db` 与游标 → 释放锁。
 
 > 编译出来的 Worker 只有 `fetch` handler，无法承载 `scheduled`，所以爬取逻辑单独部署为 Worker，两者绑定同一个 KV namespace。
