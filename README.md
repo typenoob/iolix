@@ -85,6 +85,11 @@ npm run worker:build   # wrangler pages functions build --outdir=./dist-worker
 4. 连接 Git（Workers Builds）或本地部署：
    - Workers Builds 构建命令填 `npm run build`（已内含 `worker:build`），部署命令 `npx wrangler deploy`
    - 或本地直接：`npm run deploy`
+   - npm 12+ 默认不再放行依赖的安装脚本，`esbuild` / `workerd` 装不上会导致 `worker:build` 与 `wrangler deploy` 失败。
+     仓库已用 `package.json` 的 `allowScripts` 固定批准这四个包；依赖升级版本变化后重新固定：
+     ```bash
+     npm approve-scripts esbuild workerd core-js yorkie
+     ```
 5. 部署爬虫：`npm run crawler:deploy`
 6. 验证：访问 `https://<worker 域名>/api/meta`，`total` 应与导入条数一致
 

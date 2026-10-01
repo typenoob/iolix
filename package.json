@@ -2,6 +2,12 @@
   "name": "iolix",
   "version": "0.1.0",
   "private": true,
+  "allowScripts": {
+    "core-js@3.21.1": true,
+    "esbuild@0.28.1": true,
+    "workerd@1.20260930.2": true,
+    "yorkie@2.0.0": true
+  },
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build && npm run worker:build",
