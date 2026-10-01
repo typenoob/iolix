@@ -34,7 +34,7 @@
 import { defineComponent } from "vue";
 import MovieCard from "./MovieCard";
 import SearchResult from "./SearchResult.vue";
-import { getMovies, searchMovies } from "../api";
+import { getMovies, searchMovies, getMeta } from "../api";
 
 export default defineComponent({
   components: { MovieCard, SearchResult },
@@ -77,10 +77,21 @@ export default defineComponent({
       this.searchTimer = setTimeout(() => this.runSearch(value), 300);
     },
   },
-  mounted() {
+  async mounted() {
+    await this.loadMeta();
     this.loadMovies();
   },
   methods: {
+    // 分页总数统一取 /api/meta：列表按页独立缓存，不同页可能拿到不同时刻的旧快照，
+    // 直接用列表响应的 total 会出现「首页 40 页、翻页后 58 页」的页数跳动
+    async loadMeta() {
+      try {
+        const meta = await getMeta();
+        this.total = meta?.total ?? 0;
+      } catch {
+        this.total = 0; // 交给 loadMovies 兜底
+      }
+    },
     onFocus() {
       this.isSearching = true;
     },
@@ -107,7 +118,8 @@ export default defineComponent({
       try {
         const data = await getMovies(this.current, this.pageSize);
         this.movies = data.items ?? [];
-        this.total = data.total ?? 0;
+        // 仅在 meta 不可用时兜底，避免翻页过程中被列表响应改写 total
+        if (!this.total) this.total = data.total ?? 0;
       } catch (e) {
         this.error = "加载失败，请稍后重试";
         this.movies = [];

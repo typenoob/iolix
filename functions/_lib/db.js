@@ -1,7 +1,9 @@
 // Pages Functions 共享模块：KV 快照读取 + 纯函数切片 + 统一响应封装
 
 const KEY_DB = 'db';
-const SNAPSHOT_TTL_MS = 5 * 60 * 1000; // 与 Cache-Control 的 s-maxage 保持一致
+// 必须与 json() 的 s-maxage 保持一致。爬虫每轮都会写库，TTL 过长会让不同分页、
+// 不同接口读到相差数分钟的快照，同一个会话里页数上下跳动
+const SNAPSHOT_TTL_MS = 60 * 1000;
 export const DEFAULT_PAGE_SIZE = 8;
 export const MAX_PAGE_SIZE = 24;
 
@@ -60,7 +62,7 @@ export function json(data, init = {}) {
     ...init,
     headers: {
       'Content-Type': 'application/json; charset=utf-8',
-      'Cache-Control': 'public, max-age=0, s-maxage=300',
+      'Cache-Control': 'public, max-age=0, s-maxage=60',
       ...(init.headers ?? {}),
     },
   });
