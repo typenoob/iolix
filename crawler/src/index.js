@@ -7,6 +7,9 @@ const KEY_LOCK = 'sync:lock';
 const LOCK_TTL_SECONDS = 900; // 异常退出后锁自动过期，避免永久死锁
 const DEFAULT_BATCH_SIZE = 60;
 const DEFAULT_MAX_ID = 15000;
+// 每天只跑一次，单次运行连续跑多批直到用完预算，避免一天仅推进一批
+const DEFAULT_MAX_BATCHES = 30;
+const DEFAULT_TIME_BUDGET_MS = 45_000;
 
 function log(level, payload) {
   const line = JSON.stringify({ level, ts: new Date().toISOString(), ...payload });
@@ -144,10 +147,41 @@ export default {
       return;
     }
 
+    const maxBatches = toPositiveInt(env.MAX_BATCHES, DEFAULT_MAX_BATCHES);
+    const timeBudgetMs = toPositiveInt(env.TIME_BUDGET_MS, DEFAULT_TIME_BUDGET_MS);
+
     try {
       await env.MOVIE_DB.put(KEY_LOCK, '1', { expirationTtl: LOCK_TTL_SECONDS });
-      const summary = await runBatch(env);
-      log('info', { msg: 'scheduled 完成', cron: event.cron, ...summary, elapsedMs: Date.now() - startedAt });
+
+      let batches = 0;
+      let added = 0;
+      let failed = 0;
+      let stoppedReason = 'budget';
+
+      while (batches < maxBatches) {
+        if (Date.now() - startedAt >= timeBudgetMs) {
+          stoppedReason = 'time';
+          break;
+        }
+        const summary = await runBatch(env);
+        batches += 1;
+        added += summary.added;
+        failed += summary.failed;
+        if (summary.scanned === 0) {
+          stoppedReason = 'caught-up'; // 已扫完一圈且无新 ID
+          break;
+        }
+      }
+
+      log('info', {
+        msg: 'scheduled 完成',
+        cron: event.cron,
+        batches,
+        added,
+        failed,
+        stoppedReason,
+        elapsedMs: Date.now() - startedAt,
+      });
     } catch (error) {
       log('error', { msg: 'scheduled 失败', cron: event.cron, error: String(error) });
     } finally {

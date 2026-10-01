@@ -1,16 +1,7 @@
-#:schema node_modules/wrangler/config-schema.json
-
-# Cloudflare Pages 项目配置
-# 本地联调：`npm run pages:dev`（wrangler pages dev 会自动读取本文件的 KV 绑定）
-# 生产部署：Dashboard → Workers & Pages → iolix → Settings → Functions → KV namespace bindings
-#           绑定变量名 MOVIE_DB，值为 namespace iolix-db
 name = "iolix"
-compatibility_date = "2026-09-01"
+compatibility_date = "2026-10-01"
+main = "./dist-worker/index.js"
 
-# Pages 构建产物目录（Dashboard 与 wrangler pages deploy / pages dev 使用）
-pages_build_output_dir = "dist"
-
-# 统一部署路径（wrangler deploy / Pages 检测到 wrangler.toml 时使用），与上面指向同一目录
 [assets]
 directory = "./dist"
 

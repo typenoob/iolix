@@ -5,11 +5,12 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
+    "worker:build": "wrangler pages functions build --outdir=./dist-worker",
+    "dev": "npm run build && npm run worker:build && wrangler dev",
+    "deploy": "npm run build && npm run worker:build && wrangler deploy",
     "lint": "vue-cli-service lint",
-    "pages:dev": "wrangler pages dev dist",
-    "pages:deploy": "wrangler pages deploy dist",
     "kv:create": "wrangler kv namespace create iolix-db",
-    "kv:import": "wrangler kv key put db --path=db.json --binding=MOVIE_DB",
+    "kv:import": "wrangler kv key put db --path=db.json --namespace-id=d85295d9f56c40c5af00c426d7aad334",
     "crawler:dev": "cd crawler && wrangler dev --test-scheduled",
     "crawler:deploy": "cd crawler && wrangler deploy",
     "crawler:tail": "cd crawler && wrangler tail"

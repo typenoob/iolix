@@ -10,10 +10,10 @@ module.exports = defineConfig({
     host: '127.0.0.1',
     https: false,
     open: true,
-    // 本地联调 Pages Functions：npm run pages:dev 起在 8788，前端 /api 转发过去
+    // 本地联调 Worker + 静态资源：npm run dev 起在 8787，前端 /api 转发过去
     proxy: {
       '/api': {
-        target: 'http://127.0.0.1:8788',
+        target: 'http://127.0.0.1:8787',
         changeOrigin: true,
       },
     },

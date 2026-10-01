@@ -7,7 +7,8 @@ main = "src/index.js"
 compatibility_date = "2026-09-01"
 
 [triggers]
-crons = ["*/10 * * * *"]
+# 每天 UTC 18:00（北京时间次日 02:00）跑一次
+crons = ["0 18 * * *"]
 
 [[kv_namespaces]]
 binding = "MOVIE_DB"
@@ -16,5 +17,8 @@ id = "d85295d9f56c40c5af00c426d7aad334"
 [vars]
 BATCH_SIZE = "60"
 MAX_ID = "15000"
+# 单次运行连续跑多批，直到无新 ID / 达到批数上限 / 超过时间预算
+MAX_BATCHES = "30"
+TIME_BUDGET_MS = "45000"
 API_BASE = "http://fx.meiying.cool/api/"
 PLAY_BASE = "http://fx.meiying.cool/"
