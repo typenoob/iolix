@@ -4,10 +4,10 @@
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
+    "build": "vue-cli-service build && npm run worker:build",
     "worker:build": "wrangler pages functions build --outdir=./dist-worker",
-    "dev": "npm run build && npm run worker:build && wrangler dev",
-    "deploy": "npm run build && npm run worker:build && wrangler deploy",
+    "dev": "npm run build && wrangler dev",
+    "deploy": "npm run build && wrangler deploy",
     "lint": "vue-cli-service lint",
     "kv:create": "wrangler kv namespace create iolix-db",
     "kv:import": "wrangler kv key put db --path=db.json --namespace-id=d85295d9f56c40c5af00c426d7aad334",

@@ -60,7 +60,7 @@ rm db.json
 
 ```bash
 npm run crawler:dev
-curl "http://127.0.0.1:8787/__scheduled?cron=*%2F10+*+*+*+"
+curl "http://127.0.0.1:8787/__scheduled?cron=0+18+*+*+*+"
 ```
 
 ## Cloudflare 部署
@@ -83,8 +83,8 @@ npm run worker:build   # wrangler pages functions build --outdir=./dist-worker
    rm db.json
    ```
 4. 连接 Git（Workers Builds）或本地部署：
-   - Workers Builds 构建命令填：`npm run build && npm run worker:build`，部署命令保持 `npx wrangler deploy`
-   - 或本地直接：`npm run deploy`（内部已串起 build + worker:build + deploy）
+   - Workers Builds 构建命令填 `npm run build`（已内含 `worker:build`），部署命令 `npx wrangler deploy`
+   - 或本地直接：`npm run deploy`
 5. 部署爬虫：`npm run crawler:deploy`
 6. 验证：访问 `https://<worker 域名>/api/meta`，`total` 应与导入条数一致
 
