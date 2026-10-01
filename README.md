@@ -9,9 +9,9 @@
 | 组成 | 位置 | 说明 |
 | --- | --- | --- |
 | 前端静态资源 | `src/` → `dist/` | Vue 3 + vue-cli 构建，作为 Worker 的 `[assets]` 对外提供 |
-| 数据接口 | `functions/api/*` | `/api/movies`、`/api/search`、`/api/meta`；构建时由 `npm run worker:build` 编译成单个 Worker 脚本 |
+| 数据接口 | `worker/index.js` + `functions/api/*` | `/api/movies`、`/api/search`、`/api/meta`；入口是仓库内源码，构建期无需编译 |
 | 数据存放 | Workers KV（绑定名 `MOVIE_DB`） | 整库单 key `db`，另有 `sync:cursor`、`sync:lock` 两个辅助 key |
-| 定时爬取 | `crawler/` | 独立 Worker + Cron Triggers，每 10 分钟增量爬取一批 |
+| 定时爬取 | `crawler/` | 独立 Worker + Cron Triggers，每天 UTC 18:00 增量爬取 |
 
 读取链路：浏览器 → Worker 静态资源 → `/api/*` → KV 读 `db`（模块级快照缓存 5 分钟）→ 边缘切片 → 返回数 KB JSON。
 写入链路：Cron → 加锁 → 读库建索引 → 抓一批缺失 ID → 写回 `db` 与游标 → 释放锁。
@@ -65,12 +65,10 @@ curl "http://127.0.0.1:8787/__scheduled?cron=0+18+*+*+*+"
 
 ## Cloudflare 部署
 
-本项目按 **Workers + Static Assets**（即新版 Pages）部署：根 `wrangler.toml` 里 `main` 指向编译后的 Worker、`[assets].directory` 指向 `dist`。
-`functions/` 目录必须先编译成单个 Worker 脚本，否则会报 `Missing entry-point`：
+本项目按 **Workers + Static Assets**（即新版 Pages）部署：根 `wrangler.toml` 里 `main` 指向仓库内的 `worker/index.js`、
+`[assets].directory` 指向 vue-cli 产出的 `dist`。`/api/*` 由 Worker 直接路由到 `functions/api/*`，其余请求回落到静态资源。
 
-```bash
-npm run worker:build   # wrangler pages functions build --outdir=./dist-worker
-```
+因此构建只需产出 `dist`，不再需要 `wrangler pages functions build` 之类的编译步骤。
 
 首次配置（需要 Workers **Paid** 计划：解析 2.2 MB JSON 会超出 Free 计划 10 ms 的 CPU 上限）：
 
@@ -83,9 +81,9 @@ npm run worker:build   # wrangler pages functions build --outdir=./dist-worker
    rm db.json
    ```
 4. 连接 Git（Workers Builds）或本地部署：
-   - Workers Builds 构建命令填 `npm run build`（已内含 `worker:build`），部署命令 `npx wrangler deploy`
+   - Workers Builds 构建命令填 `npm run build`，部署命令 `npx wrangler deploy`
    - 或本地直接：`npm run deploy`
-   - npm 12+ 默认不再放行依赖的安装脚本，`esbuild` / `workerd` 装不上会导致 `worker:build` 与 `wrangler deploy` 失败。
+   - npm 12+ 默认不再放行依赖的安装脚本，`esbuild` / `workerd` 装不上会导致 `wrangler deploy` 打包失败。
      仓库已用 `package.json` 的 `allowScripts` 固定批准这四个包；依赖升级版本变化后重新固定：
      ```bash
      npm approve-scripts esbuild workerd core-js yorkie

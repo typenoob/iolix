@@ -10,8 +10,7 @@
   },
   "scripts": {
     "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build && npm run worker:build",
-    "worker:build": "wrangler pages functions build --outdir=./dist-worker",
+    "build": "vue-cli-service build",
     "dev": "npm run build && wrangler dev",
     "deploy": "npm run build && wrangler deploy",
     "lint": "vue-cli-service lint",
