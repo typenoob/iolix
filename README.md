@@ -12,11 +12,11 @@
 | --- | --- | --- |
 | 前端静态资源 | `src/` → `dist/` | Vue 3 + vue-cli 构建，作为 Worker 的 `[assets]` 对外提供 |
 | 数据接口 | `worker/index.js` + `functions/api/*` | `/api/movies`、`/api/search`、`/api/meta`；入口是仓库内源码，构建期无需编译 |
-| 数据存放 | Workers KV（绑定名 `MOVIE_DB`） | 整库单 key `db`，另有 `sync:cursor`、`sync:lock` 两个辅助 key |
-| 定时爬取 | `crawler/` | 独立 Worker + Cron Triggers，每天 UTC 18:00 增量爬取 |
+| 数据存放 | Workers KV（绑定名 `MOVIE_DB`） | 整库单 key `db`，另有 `sync:cursor`、`sync:lock`、`sync:empty` 三个辅助 key |
+| 定时爬取 | `crawler/` | 独立 Worker + Cron Triggers，每天 UTC 02:00（北京时间 10:00）增量爬取 |
 
 读取链路：浏览器 → Worker 静态资源 → `/api/*` → KV 读 `db`（模块级快照 + 边缘缓存，TTL 60 秒）→ 边缘切片 → 返回数 KB JSON。
-写入链路：Cron → 加锁 → 读库建索引 → 抓一批缺失 ID → 写回 `db` 与游标 → 释放锁。
+写入链路：Cron → 加锁 → 读库建索引（整轮只读一次）→ 连续抓多批缺失 ID，结果先累积在内存 → 收尾统一写回 `db`、`sync:empty` 与游标 → 释放锁。
 
 > 编译出来的 Worker 只有 `fetch` handler，无法承载 `scheduled`，所以爬取逻辑单独部署为 Worker，两者绑定同一个 KV namespace。
 
@@ -32,7 +32,8 @@ KV key `db` 的值：
 | --- | --- |
 | `db` | 整库，约 2.2 MB（单键上限 25 MiB） |
 | `sync:cursor` | `{ next, round, updatedAt }`，扫到 `MAX_ID` 后回到 1 并 `round + 1` |
-| `sync:lock` | 值为 `"1"`，TTL 900 秒，防止上一批未跑完被重复触发 |
+| `sync:lock` | 值为 `"1"`，TTL 900 秒，防止上一轮未跑完被重复触发 |
+| `sync:empty` | 上游明确返回“无此影片”的 ID 数组，收录后不再重复重试 |
 
 接口约定：
 

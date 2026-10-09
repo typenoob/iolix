@@ -20,6 +20,10 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 
+# wrangler dev 产物
+dev.log
+dev.err
+
 # Editor directories and files
 .idea
 .vscode
